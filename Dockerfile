@@ -46,20 +46,42 @@ RUN az --version
 RUN az login --use-device-code
 
 ################################
+# Install python
+################################
+
+# Install python
+RUN apt-get install -y python3-pip
+RUN pip3 install --upgrade pip
+
+# Check that it's installed
+RUN python3 -V
+RUN pip --version
+
+################################
+# Install Ansible
+################################
+
+# Install Ansible
+RUN pip install ansible
+
+# Check that it's installed
+RUN ansible --version
+
+################################
 # Run Terraform
 ################################
 
 # Copy the files
 COPY ./src/terraform /src/terraform
 
-# Set the working directory
-WORKDIR /src/terraform
-
 # Copy the public key
 COPY ./ssh-active-dir-lab-terraform-neu.pub /root/.ssh/ssh-active-dir-lab-terraform-neu.pub
+
+# Set the working directory
+WORKDIR /src/terraform
 
 # Init terraform
 RUN terraform init
 
 # Apply terraform
-RUN terraform apply -auto-approve
+# RUN terraform apply -auto-approve
