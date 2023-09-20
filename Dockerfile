@@ -55,6 +55,9 @@ COPY ./src/terraform /src/terraform
 # Set the working directory
 WORKDIR /src/terraform
 
+# Copy the public key
+COPY ./ssh-active-dir-lab-terraform-neu.pub /root/.ssh/ssh-active-dir-lab-terraform-neu.pub
+
 # Init terraform
 RUN terraform init
 
