@@ -16,6 +16,24 @@ RUN \
   apt-get install curl -y
 
 ################################
+# Import Private Key
+################################
+
+# Pass the private key as a build argument
+ARG SSH_PRIVATE_KEY=""
+
+# Create the scripts directory
+RUN mkdir /root/scripts
+# Copy check ssh script to the image
+COPY ./scripts/check_ssh_key.sh /root/scripts/check_ssh_key.sh
+
+# Make the script executable
+RUN chmod +x /root/scripts/check_ssh_key.sh
+
+# Run the script
+RUN /root/scripts/check_ssh_key.sh "${SSH_PRIVATE_KEY}"
+
+################################
 # Install Terraform
 ################################
 
