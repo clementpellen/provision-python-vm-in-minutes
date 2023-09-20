@@ -13,7 +13,9 @@ RUN \
   # vim
   apt-get install vim -y && \
   # need curl
-  apt-get install curl -y
+  apt-get install curl -y && \
+  # need ssh
+  apt-get install openssh-server -y
 
 ################################
 # Import Private Key
