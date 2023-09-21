@@ -88,14 +88,18 @@ RUN pip install ansible
 RUN ansible --version
 
 ################################
-# Run Terraform
+# Copy the files
 ################################
 
 # Copy the files
-COPY ./src/terraform /src/terraform
+COPY ./src/ /src/
 
 # Copy the public key
 COPY ./ssh-active-dir-lab-terraform-neu.pub /root/.ssh/ssh-active-dir-lab-terraform-neu.pub
+
+################################
+# Run Terraform
+################################
 
 # Set the working directory
 WORKDIR /src/terraform

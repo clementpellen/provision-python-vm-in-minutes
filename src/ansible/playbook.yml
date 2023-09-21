@@ -1,0 +1,38 @@
+- name: Install Docker on VM
+  hosts: all
+  # remote_user: adminuser
+  become: yes
+  tasks:
+    - name: update packages
+      apt:
+        update_cache: yes
+
+    - name: install needed packages
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+        state: present
+
+    - name: add Docker’s repository
+      apt_repository:
+        repo: deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable
+        state: present
+
+    - name: Add Docker's GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: present
+
+    - name: Check Docker is running
+      systemd:
+        name: docker
+        state: started
