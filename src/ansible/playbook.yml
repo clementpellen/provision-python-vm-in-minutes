@@ -1,5 +1,7 @@
 - hosts: all
   become: true
+  vars:
+    docker_image: "../containers/server.Dockerfile"
   tasks:
     - name: Install aptitude
       apt:
@@ -39,3 +41,20 @@
     - name: Install Docker Module for Python
       pip:
         name: docker
+
+    - name: Build Docker Image
+      docker_image:
+        build:
+          path: "{{ docker_image }}"
+        name: "server"
+        source: build
+
+    - name: Run Docker Container
+      docker_container:
+        name: "server-container"
+        image: "server"
+        state: started
+        restart_policy: always
+        ports:
+          - "80:80"
+          - "443:443"
