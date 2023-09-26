@@ -1,4 +1,3 @@
-sudo docker logs -f server-container
 - hosts: all
   become: true
   vars:
@@ -45,6 +44,11 @@ sudo docker logs -f server-container
     - name: Install Docker Module for Python
       pip:
         name: docker
+
+    - name: Copy Docker directory to remote host
+      copy:
+        src: /src/containers/
+        dest: /src/containers/
 
     - name: Build Docker Image
       docker_image:

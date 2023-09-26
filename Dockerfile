@@ -108,4 +108,4 @@ WORKDIR /src/terraform
 RUN terraform init
 
 # Apply terraform
-# RUN terraform apply -auto-approve
+CMD terraform apply -auto-approve
