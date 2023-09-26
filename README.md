@@ -6,7 +6,7 @@
 - Installation de Docker sur la machine virtuelle
 - Lancement du conteneur Docker avec le projet Python
 
-## Commamndes à exécuter :
+## Commandes à exécuter :
 
 - `git clone` - Clonez le projet sur votre machine
 
