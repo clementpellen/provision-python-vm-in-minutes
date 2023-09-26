@@ -17,7 +17,7 @@ variable "azure_region" {
 variable "project_name" {
   type        = string
   description = "Name of the project"
-  default     = "active-dir-lab-terraform"
+  default     = "provision-python-vm-in-minutes"
 }
 
 variable "vnet_address_space" {

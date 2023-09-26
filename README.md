@@ -14,8 +14,8 @@
 
 ### - `git clone` - Clonez le projet sur votre machine
 
-### - `docker build -f master.Dockerfile --build-arg SSH_PRIVATE_KEY="$(cat ~/.ssh/ssh-active-dir-lab-terraform-neu.pem)" -t active-dir-lab-terraform .` - Créez l'image Docker
+### - `docker build -f master.Dockerfile --build-arg SSH_PRIVATE_KEY="$(cat ~/.ssh/ssh-active-dir-lab-terraform-neu.pem)" -t provision-python-vm-in-minutes .` - Créez l'image Docker
 
-### - `docker run --name active-dir-lab-terraform-container active-dir-lab-terraform:latest terraform apply auto-approve` - Lancez le conteneur Docker
+### - `docker run --name provision-python-vm-in-minutes-container provision-python-vm-in-minutes:latest terraform apply -auto-approve` - Lancez le conteneur Docker
 
-### - `docker run --name active-dir-lab-terraform-container active-dir-lab-terraform:latest terraform destroy auto-approve` - Détruisez le conteneur Docker
+### - `docker run --name provision-python-vm-in-minutes-container provision-python-vm-in-minutes:latest terraform destroy -auto-approve` - Détruisez le conteneur Docker
