@@ -92,6 +92,7 @@ RUN ansible --version
 ################################
 
 # Copy the files
+COPY /infrastructure/ /infrastructure/
 COPY ./src/ /src/
 
 # Copy the public key
@@ -102,10 +103,10 @@ COPY ./ssh-active-dir-lab-terraform-neu.pub /root/.ssh/ssh-active-dir-lab-terraf
 ################################
 
 # Set the working directory
-WORKDIR /src/terraform
+WORKDIR /infrastructure/terraform
 
 # Init terraform
 RUN terraform init
 
-# Apply terraform
-# CMD ["terraform", "apply", "-auto-approve"]
+# Plan terraform
+CMD ["terraform", "plan"]

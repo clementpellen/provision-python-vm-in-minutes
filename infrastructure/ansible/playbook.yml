@@ -1,7 +1,7 @@
 - hosts: all
   become: true
   vars:
-    docker_image_path: "/src/containers"
+    docker_image_path: "/infrastructure/docker/"
     docker_image_filename: "server.Dockerfile"
     docker_image_name: "server"
 
@@ -47,8 +47,8 @@
 
     - name: Copy Docker directory to remote host
       copy:
-        src: /src/containers/
-        dest: /src/containers/
+        src: /infrastructure/docker/
+        dest: /infrastructure/docker/
 
     - name: Build Docker Image
       docker_image:

@@ -21,7 +21,7 @@ RUN pip --version
 ################################
 
 # Copy the script
-COPY hello_world.py ./hello_world.py
+COPY /src/app/hello_world.py /src/app/hello_world.py 
 
 # Run the script
-CMD ["python3", "./hello_world.py"]
+CMD ["python3", "/src/app/hello_world.py"]
