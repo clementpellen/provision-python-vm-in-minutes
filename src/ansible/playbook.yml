@@ -1,7 +1,11 @@
+sudo docker logs -f server-container
 - hosts: all
   become: true
   vars:
-    docker_image: "../containers/server.Dockerfile"
+    docker_image_path: "/src/containers"
+    docker_image_filename: "server.Dockerfile"
+    docker_image_name: "server"
+
   tasks:
     - name: Install aptitude
       apt:
@@ -45,14 +49,16 @@
     - name: Build Docker Image
       docker_image:
         build:
-          path: "{{ docker_image }}"
-        name: "server"
+          path: "{{ docker_image_path }}"
+          dockerfile: "{{ docker_image_filename }}"
+        name: "{{ docker_image_name }}"
         source: build
+      become: true
 
     - name: Run Docker Container
       docker_container:
-        name: "server-container"
-        image: "server"
+        name: "{{ docker_image_name }}-container"
+        image: "{{ docker_image_name }}"
         state: started
         restart_policy: always
         ports:

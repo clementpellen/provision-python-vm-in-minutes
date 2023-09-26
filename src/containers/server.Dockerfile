@@ -1,4 +1,4 @@
-FROM ubuntu-20.04:latest
+FROM ubuntu:20.04
 
 RUN \
   # Update
@@ -21,7 +21,7 @@ RUN pip --version
 ################################
 
 # Copy the script
-COPY ./src/container/hello_world.py ./hello_world.py
+COPY hello_world.py ./hello_world.py
 
 # Run the script
 CMD ["python3", "./hello_world.py"]
