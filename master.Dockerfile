@@ -62,6 +62,19 @@ RUN az upgrade --yes
 RUN az login --use-device-code
 
 ################################
+# Create St Account for Terraform
+################################
+
+# Copy the script to the image
+COPY ./scripts/create_st_tfstate.sh ./scripts/create_st_tfstate.sh
+
+# Make the script executable
+RUN chmod +x ./scripts/create_st_tfstate.sh
+
+# Run the script
+RUN ./scripts/create_st_tfstate.sh
+
+################################
 # Copy the files
 ################################
 

@@ -10,10 +10,10 @@ terraform {
     }
   }
   backend "azurerm" {
-    resource_group_name  = "DefaultResourceGroup-EUS"
-    storage_account_name = "activedirlabstate"
-    container_name       = "activedirlabstate"
-    key                  = "./terraform.tfstate"
+    resource_group_name  = "rg-tfstate-provision-python-vm-in-minutes-neu"
+    storage_account_name = "tfstateprovisionvm"
+    container_name       = "tfstateprovisionvm"
+    key                  = "terraform.tfstate"
   }
 }
 
