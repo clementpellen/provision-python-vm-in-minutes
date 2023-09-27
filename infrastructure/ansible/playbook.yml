@@ -50,6 +50,11 @@
         src: /infrastructure/docker/
         dest: /infrastructure/docker/
 
+    - name: Copy src directory to remote host
+      copy:
+        src: /src/
+        dest: /src/
+
     - name: Build Docker Image
       docker_image:
         build:

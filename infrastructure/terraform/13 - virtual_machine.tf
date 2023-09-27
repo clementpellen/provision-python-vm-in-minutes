@@ -12,7 +12,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
   admin_ssh_key {
     username   = "adminuser"
-    public_key = file("~/.ssh/ssh-active-dir-lab-terraform-neu.pub")
+    public_key = file("~/.ssh/ssh-provision-python-vm-in-minutes.pub")
   }
 
   network_interface_ids = [

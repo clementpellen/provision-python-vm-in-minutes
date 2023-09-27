@@ -4,6 +4,6 @@ resource "null_resource" "ansible_provisioning" {
   }
 
   provisioner "local-exec" {
-    command = "cd ../ansible && ansible-playbook -i '${azurerm_linux_virtual_machine.vm.public_ip_address},' -u adminuser --private-key=~/.ssh/ssh-active-dir-lab-terraform-neu.pem playbook.yml"
+    command = "cd ../ansible && ansible-playbook -i '${azurerm_linux_virtual_machine.vm.public_ip_address},' -u adminuser --private-key=~/.ssh/ssh-provision-python-vm-in-minutes.pem playbook.yml"
   }
 }

@@ -14,26 +14,23 @@ RUN \
   apt-get install vim -y && \
   # need curl
   apt-get install curl -y && \
-  # need ssh
-  apt-get install openssh-server -y
+  # need ssh server and client
+  apt-get install openssh-server openssh-client -y && \
+  # need openssl
+  apt-get install openssl -y
 
 ################################
-# Import Private Key
+# Generate SSH Keys
 ################################
 
-# Pass the private key as a build argument
-ARG SSH_PRIVATE_KEY=""
-
-# Create the scripts directory
-RUN mkdir /root/scripts
-# Copy check ssh script to the image
-COPY ./scripts/check_ssh_key.sh /root/scripts/check_ssh_key.sh
+# Copy the script to the image
+COPY ./scripts/generate_ssh_keys.sh /root/scripts/generate_ssh_keys.sh
 
 # Make the script executable
-RUN chmod +x /root/scripts/check_ssh_key.sh
+RUN chmod +x /root/scripts/generate_ssh_keys.sh
 
 # Run the script
-RUN /root/scripts/check_ssh_key.sh "${SSH_PRIVATE_KEY}"
+RUN /root/scripts/generate_ssh_keys.sh
 
 ################################
 # Install Terraform
@@ -93,10 +90,7 @@ RUN ansible --version
 
 # Copy the files
 COPY /infrastructure/ /infrastructure/
-COPY ./src/ /src/
-
-# Copy the public key
-COPY ./ssh-active-dir-lab-terraform-neu.pub /root/.ssh/ssh-active-dir-lab-terraform-neu.pub
+COPY /src/ /src/
 
 ################################
 # Run Terraform
@@ -109,4 +103,4 @@ WORKDIR /infrastructure/terraform
 RUN terraform init
 
 # Plan terraform
-CMD ["terraform", "plan"]
+# CMD ["terraform", "plan"]
