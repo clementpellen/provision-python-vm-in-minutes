@@ -21,6 +21,6 @@
 
 - `docker run -it provision-python-vm-in-minutes:latest` - Lancez le conteneur Docker en mode interactif
 
-- `ssh -i ~/.ssh/ssh-provision-python-vm-in-minutes adminuser@<ip-address>` - Connectez-vous à la machine virtuelle
+- `ssh -i ~/.ssh/ssh-provision-python-vm-in-minutes.pem adminuser@<ip-address>` - Connectez-vous à la machine virtuelle
 
 - `sudo docker logs -f server-container` - Observez les logs du programme

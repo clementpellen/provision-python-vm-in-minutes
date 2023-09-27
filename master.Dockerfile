@@ -1,5 +1,8 @@
-# Pull base image.
-FROM ubuntu:latest
+### Pull base image with Terraform, Azure CLI and Python ###
+FROM zenika/terraform-azure-cli:release-6.1_terraform-1.0.6_azcli-2.28.1
+
+# Set the user to root
+USER root
 
 RUN \
   # Update
@@ -8,8 +11,6 @@ RUN \
   apt-get install unzip -y && \
   # need sudo
   apt-get install sudo -y && \
-  # need wget
-  apt-get install wget -y && \
   # vim
   apt-get install vim -y && \
   # need curl
@@ -19,60 +20,29 @@ RUN \
   # need openssl
   apt-get install openssl -y
 
+# Set the working directory
+WORKDIR /root
+
 ################################
 # Generate SSH Keys
 ################################
 
 # Copy the script to the image
-COPY ./scripts/generate_ssh_keys.sh /root/scripts/generate_ssh_keys.sh
+COPY ./scripts/generate_ssh_keys.sh ./scripts/generate_ssh_keys.sh
 
 # Make the script executable
-RUN chmod +x /root/scripts/generate_ssh_keys.sh
+RUN chmod +x ./scripts/generate_ssh_keys.sh
 
 # Run the script
-RUN /root/scripts/generate_ssh_keys.sh
+RUN ./scripts/generate_ssh_keys.sh
 
 ################################
-# Install Terraform
-################################
-
-# Download terraform for linux
-RUN wget https://releases.hashicorp.com/terraform/1.5.7/terraform_1.5.7_linux_amd64.zip
-
-# Unzip
-RUN unzip terraform_1.5.7_linux_amd64.zip
-
-# Move to local bin
-RUN mv terraform /usr/local/bin/
-# Clean up
-RUN rm terraform_1.5.7_linux_amd64.zip
-# Check that it's installed
-RUN terraform --version 
-
-################################
-# Install Azure CLI
-################################
-
-# Download
-RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-
-# Check that it's installed
-RUN az --version
-
-# Connection to Azure
-RUN az login --use-device-code
-
-################################
-# Install python
+# Install pip
 ################################
 
 # Install python
 RUN apt-get install -y python3-pip
 RUN pip3 install --upgrade pip
-
-# Check that it's installed
-RUN python3 -V
-RUN pip --version
 
 ################################
 # Install Ansible
@@ -81,23 +51,30 @@ RUN pip --version
 # Install Ansible
 RUN pip install ansible
 
-# Check that it's installed
-RUN ansible --version
+################################
+# Connect to Azure account
+################################
+
+# update Azure CLI
+RUN az upgrade --yes
+
+# Connection to Azure
+RUN az login --use-device-code
 
 ################################
 # Copy the files
 ################################
 
 # Copy the files
-COPY /infrastructure/ /infrastructure/
-COPY /src/ /src/
+COPY ./infrastructure/ ./infrastructure/
+COPY ./src/ ./src/
 
 ################################
 # Run Terraform
 ################################
 
 # Set the working directory
-WORKDIR /infrastructure/terraform
+WORKDIR /root/infrastructure/terraform
 
 # Init terraform
 RUN terraform init

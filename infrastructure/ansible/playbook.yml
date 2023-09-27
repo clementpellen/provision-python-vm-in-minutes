@@ -1,7 +1,7 @@
 - hosts: all
   become: true
   vars:
-    docker_image_path: "/infrastructure/docker/"
+    docker_image_path: "/adminuser/"
     docker_image_filename: "server.Dockerfile"
     docker_image_name: "server"
 
@@ -47,19 +47,19 @@
 
     - name: Copy Docker directory to remote host
       copy:
-        src: /infrastructure/docker/
-        dest: /infrastructure/docker/
+        src: /root/infrastructure/docker/
+        dest: /adminuser/infrastructure/docker/
 
     - name: Copy src directory to remote host
       copy:
-        src: /src/
-        dest: /src/
+        src: /root/src/
+        dest: /adminuser/src/
 
     - name: Build Docker Image
       docker_image:
         build:
           path: "{{ docker_image_path }}"
-          dockerfile: "{{ docker_image_filename }}"
+          dockerfile: "infrastructure/docker/{{ docker_image_filename }}"
         name: "{{ docker_image_name }}"
         source: build
       become: true
