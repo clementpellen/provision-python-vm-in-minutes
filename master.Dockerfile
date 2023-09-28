@@ -1,48 +1,37 @@
-### Pull base image with Terraform, Azure CLI and Python ###
-FROM zenika/terraform-azure-cli:release-6.1_terraform-1.0.6_azcli-2.28.1
+### Pull Terraform base image ###
+FROM ubuntu:20.04
 
 # Set the user to root
 USER root
 
-RUN \
-  # Update
-  apt-get update -y && \
-  # Install Unzip
-  apt-get install unzip -y && \
-  # need sudo
-  apt-get install sudo -y && \
-  # vim
-  apt-get install vim -y && \
-  # need curl
-  apt-get install curl -y && \
-  # need ssh server and client
-  apt-get install openssh-server openssh-client -y && \
-  # need openssl
-  apt-get install openssl -y
+# Install dependencies
+RUN apt-get update -y && \
+  DEBIAN_FRONTEND=noninteractive apt-get install -y unzip sudo vim curl openssh-server openssh-client openssl python3-pip && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
 WORKDIR /root
 
 ################################
-# Generate SSH Keys
+# Install Azure CLI
 ################################
 
-# Copy the script to the image
-COPY ./scripts/generate_ssh_keys.sh ./scripts/generate_ssh_keys.sh
-
-# Make the script executable
-RUN chmod +x ./scripts/generate_ssh_keys.sh
-
-# Run the script
-RUN ./scripts/generate_ssh_keys.sh
+# Install Azure CLI
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash && \
+  az login --use-device-code
 
 ################################
-# Install pip
+# Install Terraform
 ################################
 
-# Install python
-RUN apt-get install -y python3-pip
-RUN pip3 install --upgrade pip
+# Set Terraform version
+ENV TERRAFORM_VERSION=1.5.7
+
+# Download, unzip, and move terraform to /usr/local/bin/
+RUN wget "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip" \
+  && unzip "terraform_${TERRAFORM_VERSION}_linux_amd64.zip" -d /usr/local/bin/ \
+  && rm "terraform_${TERRAFORM_VERSION}_linux_amd64.zip"
 
 ################################
 # Install Ansible
@@ -52,38 +41,20 @@ RUN pip3 install --upgrade pip
 RUN pip install ansible
 
 ################################
-# Connect to Azure account
-################################
-
-# update Azure CLI
-RUN az upgrade --yes
-
-# Connection to Azure
-RUN az login --use-device-code
-
-################################
-# Create St Account for Terraform
-################################
-
-# Copy the script to the image
-COPY ./scripts/create_st_tfstate.sh ./scripts/create_st_tfstate.sh
-
-# Make the script executable
-RUN chmod +x ./scripts/create_st_tfstate.sh
-
-# Run the script
-RUN ./scripts/create_st_tfstate.sh
-
-################################
 # Copy the files
 ################################
 
 # Copy the files
-COPY ./infrastructure/ ./infrastructure/
-COPY ./src/ ./src/
+COPY . .
 
-# Make the script executable
-RUN chmod +x ./infrastructure/ansible/run_ansible_playbook.sh
+################################
+# Execute Scripts
+################################
+
+# Make the scripts executable and run them
+RUN chmod +x ./scripts/generate_ssh_keys.sh ./scripts/create_st_tfstate.sh && chmod +x ./infrastructure/ansible/run_ansible_playbook.sh && \
+  ./scripts/generate_ssh_keys.sh && \
+  ./scripts/create_st_tfstate.sh
 
 ################################
 # Run Terraform
@@ -94,6 +65,3 @@ WORKDIR /root/infrastructure/terraform
 
 # Init terraform
 RUN terraform init
-
-# Plan terraform
-# CMD ["terraform", "plan"]
