@@ -24,3 +24,13 @@
 - `ssh -i ~/.ssh/ssh-provision-python-vm-in-minutes.pem adminuser@<ip-address>` - Connectez-vous à la machine virtuelle
 
 - `sudo docker logs -f server-container` - Observez les logs du programme
+
+## Modifier le code du programme :
+
+- `cd ~/src/app` - Allez dans le dossier du projet
+
+- `sudo nano app.py` - Modifiez le code du programme
+
+- `sudo nano ~/infrastructure/docker/server.Dockerfile` - Modifiez le fichier Dockerfile (la commande CMD)
+
+- Exécutez les commandes ci-dessus pour reconstruire l'image Docker et relancer le conteneur Docker
