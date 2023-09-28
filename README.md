@@ -1,36 +1,51 @@
-# Comment faire tourner mon projet Python sur un serveur en ligne en quelques minutes ? 🧐
+# Provisionnement rapide d'un projet Python sur Azure ☁️
 
-### Ce projet met à disposition un conteneur Docker qui fait tout pour vous ! 🤩
+Avec ce projet, déploiez votre application Python sur un serveur Azure en un rien de temps grâce à Docker ! 🚀
 
-- Création d'une machine virtuelle sur le cloud Azure
-- Provisionnement de la machine virtuelle avec Ansible
-- Installation de Docker sur la machine virtuelle
-- Lancement du conteneur Docker avec le projet Python
+### 💡 Fonctionnalités principales
 
-## Commandes à exécuter :
+- Provisionnement automatique d'une VM sur Azure.
+- Configuration de la VM avec Ansible.
+- Installation et démarrage de Docker sur la VM.
+- Déploiement de votre application Python dans un conteneur Docker.
 
-- `git clone` - Clonez le projet sur votre machine
 
-- `docker build -f master.Dockerfile -t provision-python-vm-in-minutes .` - Créez l'image Docker
+### 🚀 Démarrage rapide
 
-- `docker run provision-python-vm-in-minutes:latest terraform apply -auto-approve` - Lancez le conteneur Docker
+1. Clonez le répertoire :
+ `git clone [URL_DU_REPO]`
 
-- `docker run provision-python-vm-in-minutes:latest terraform destroy -auto-approve` - Détruisez le conteneur Docker
+2. Construisez l'image Docker :
+`docker build -f master.Dockerfile -t provision-python-vm-in-minutes .`
 
-## Observer les logs du programme :
+3. Démarrez le déploiement :
+`docker run provision-python-vm-in-minutes:latest terraform apply -auto-approve`
 
-- `docker run -it provision-python-vm-in-minutes:latest` - Lancez le conteneur Docker en mode interactif
+4. (Optionnel) Supprimez le déploiement :
+`docker run provision-python-vm-in-minutes:latest terraform destroy -auto-approve`
 
-- `ssh -i ~/.ssh/ssh-provision-python-vm-in-minutes.pem adminuser@<ip-address>` - Connectez-vous à la machine virtuelle
 
-- `sudo docker logs -f server-container` - Observez les logs du programme
+### 🔍 Observer les logs
 
-## Modifier le code du programme :
+1. Lancez le conteneur Docker en mode interactif :
+`docker run -it provision-python-vm-in-minutes:latest`
 
-- `cd ~/src/app` - Allez dans le dossier du projet
+2. Connectez-vous à la machine virtuelle :
+`ssh -i ~/.ssh/ssh-provision-python-vm-in-minutes.pem adminuser@<ip-address>`
 
-- `sudo nano app.py` - Modifiez le code du programme
+3. Observez les logs de l'application :
+`sudo docker logs -f server-container`
 
-- `sudo nano ~/infrastructure/docker/server.Dockerfile` - Modifiez le fichier Dockerfile (la commande CMD)
 
-- Exécutez les commandes ci-dessus pour reconstruire l'image Docker et relancer le conteneur Docker
+### 🛠 Personnalisation du code
+
+1. Accédez au code source de l'application :
+`cd ~/src/app`
+
+2. Modifiez le code principal :
+`sudo nano app.py`
+
+3. (Optionnel) Modifiez le Dockerfile :
+`sudo nano ~/infrastructure/docker/server.Dockerfile`
+
+4. Reconstruisez et redémarrez le conteneur en suivant les étapes du "Démarrage rapide".
