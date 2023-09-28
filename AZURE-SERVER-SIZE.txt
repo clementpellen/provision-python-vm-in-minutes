@@ -1,0 +1,18 @@
+###################################################
+###         Modify the Azure Server size        ###
+###################################################
+
+AZURE_SERVER_SIZE = Standard_B1s
+
+--------------------
+
+Available VM Sizes (for reference only):
+1. Standard_B1s: Cost-effective VMs for light workloads.
+2. Standard_DS1_v2: Balanced CPU-to-memory ratio.
+3. Standard_D2s_v3: Advanced balanced CPU-to-memory with Intel Xeon.
+4. Standard_E2s_v3: Memory optimized for larger databases.
+5. Standard_F2s_v2: High CPU performance for CPU-intensive tasks.
+6. Standard_M8ms: Designed for memory-intensive applications.
+7. Standard_G1: High performance with SSD storage.
+8. Standard_NC6: Specialized for GPU-intensive scenarios.
+

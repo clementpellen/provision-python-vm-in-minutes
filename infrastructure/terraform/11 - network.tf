@@ -7,7 +7,7 @@ resource "azurerm_virtual_network" "vnet" {
   location            = azurerm_resource_group.rg_network.location
   resource_group_name = azurerm_resource_group.rg_network.name
   address_space       = [var.vnet_address_space]
-  dns_servers         = [cidrhost(var.vnet_address_space, 4), cidrhost(var.vnet_address_space, 5)]
+  dns_servers         = ["8.8.8.8", "8.8.4.4"]
 
   tags = local.common_tags
 }

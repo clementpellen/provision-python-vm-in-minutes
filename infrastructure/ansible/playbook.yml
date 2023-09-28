@@ -1,0 +1,75 @@
+- hosts: all
+  become: true
+  vars:
+    docker_image_path: "/adminuser/"
+    docker_image_filename: "server.Dockerfile"
+    docker_image_name: "server"
+
+  tasks:
+    - name: Install aptitude
+      apt:
+        name: aptitude
+        state: latest
+        update_cache: true
+
+    - name: Install required system packages
+      apt:
+        pkg:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+          - python3-pip
+          - virtualenv
+          - python3-setuptools
+        state: latest
+        update_cache: true
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+
+    - name: Install Docker Module for Python
+      pip:
+        name: docker
+
+    - name: Copy Docker directory to remote host
+      copy:
+        src: /root/infrastructure/docker/
+        dest: /adminuser/infrastructure/docker/
+
+    - name: Copy src directory to remote host
+      copy:
+        src: /root/src/
+        dest: /adminuser/src/
+
+    - name: Build Docker Image
+      docker_image:
+        build:
+          path: "{{ docker_image_path }}"
+          dockerfile: "infrastructure/docker/{{ docker_image_filename }}"
+        name: "{{ docker_image_name }}"
+        source: build
+      become: true
+
+    - name: Run Docker Container
+      docker_container:
+        name: "{{ docker_image_name }}-container"
+        image: "{{ docker_image_name }}"
+        state: started
+        restart_policy: always
+        ports:
+          - "80:80"
+          - "443:443"
