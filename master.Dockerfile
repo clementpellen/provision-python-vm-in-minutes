@@ -82,6 +82,9 @@ RUN ./scripts/create_st_tfstate.sh
 COPY ./infrastructure/ ./infrastructure/
 COPY ./src/ ./src/
 
+# Make the script executable
+RUN chmod +x ./infrastructure/ansible/run_ansible_playbook.sh
+
 ################################
 # Run Terraform
 ################################
