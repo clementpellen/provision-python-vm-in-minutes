@@ -1,6 +1,6 @@
 # Provisionnement rapide d'un projet Python sur Azure ☁️
 
-Avec ce projet, déploiez votre application Python sur un serveur Azure en un rien de temps grâce à Docker ! 🚀
+Avec ce projet, déployez votre application Python sur un serveur Azure en un rien de temps grâce à Docker ! 🚀
 
 ### 💡 Fonctionnalités principales
 
