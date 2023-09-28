@@ -52,7 +52,7 @@ COPY . .
 ################################
 
 # Make the scripts executable and run them
-RUN chmod +x ./scripts/generate_ssh_keys.sh ./scripts/create_st_tfstate.sh && chmod +x ./infrastructure/ansible/run_ansible_playbook.sh && \
+RUN chmod +x ./scripts/generate_ssh_keys.sh ./scripts/create_st_tfstate.sh && chmod +x ./infrastructure/ansible/run_ansible_playbook.sh ./infrastructure/terraform/read_vm_size.sh && \
   ./scripts/generate_ssh_keys.sh && \
   ./scripts/create_st_tfstate.sh
 

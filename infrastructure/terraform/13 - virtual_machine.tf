@@ -6,7 +6,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   name                = "vm-${local.name_suffix}"
   resource_group_name = azurerm_resource_group.rg_vm.name
   location            = azurerm_resource_group.rg_vm.location
-  size                = "Standard_B1s"
+  size                = coalesce(local.file_vm_size, local.default_vm_size)
 
   admin_username = "adminuser"
 

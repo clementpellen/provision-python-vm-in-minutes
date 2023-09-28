@@ -6,3 +6,7 @@ resource "local_file" "vm-ip" {
   content  = azurerm_linux_virtual_machine.vm.public_ip_address
   filename = "output.txt"
 }
+
+output "vm-size" {
+  value = azurerm_linux_virtual_machine.vm.size
+}
